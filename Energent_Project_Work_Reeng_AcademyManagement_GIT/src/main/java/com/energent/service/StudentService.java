@@ -10,7 +10,7 @@ public interface StudentService {
 	//Read
 	Student findStudentById(String id);
 	List<Student> findAllStudents();
-	List<Student> findStudentsByAcademies(List<Academy> academies);
+	List<Student> findStudentsByAcademy(String academyCode);
 	
 	//Other CRUDs
 	Student addOrUpdateStudent(Student student) throws Exception;

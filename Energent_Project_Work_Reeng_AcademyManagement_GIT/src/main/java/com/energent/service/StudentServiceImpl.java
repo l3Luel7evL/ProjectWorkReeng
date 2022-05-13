@@ -2,6 +2,7 @@ package com.energent.service;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,14 @@ public class StudentServiceImpl implements StudentService{
 	public List<Student> findAllStudents() {return studentRepository.findAll();}
 
 	@Override
-	public List<Student> findStudentsByAcademies(List<Academy> academies) {return studentRepository.findAllStudentsByAcademiesIn(academies);}
+	public List<Student> findStudentsByAcademy(String academyCode) {
+		List<Academy> academies = new ArrayList<>();
+		
+		if(academyService.findAcademyById(academyCode) != null)
+			academies.add(academyService.findAcademyById(academyCode));
+		
+		return studentRepository.findAllStudentsByAcademiesIn(academies);
+	}
 
 	@Override
 	public Student addOrUpdateStudent(Student student) throws Exception {
