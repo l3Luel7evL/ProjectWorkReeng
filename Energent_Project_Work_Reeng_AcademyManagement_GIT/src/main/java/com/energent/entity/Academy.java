@@ -18,11 +18,11 @@ public class Academy {
 	private String code;
 	
 	@Column(length = 75, nullable = false)
-	@Pattern(regexp = "[a-zA-Z]+")
+	@Pattern(regexp = "[A-Za-z ]+")
 	private String title, location;
 	
 	@Column(nullable = false)
-	@Pattern(regexp = "/([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))/")
+	//@Pattern(regexp = "/([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))/")
 	private Date startDate, endDate;
 	
 	@ManyToMany(mappedBy = "academies", fetch = FetchType.EAGER)

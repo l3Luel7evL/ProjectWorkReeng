@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.energent.bean.Message;
 import com.energent.entity.Academy;
+import com.energent.entity.Student;
 import com.energent.service.AcademyService;
 
 @RestController
@@ -36,4 +37,11 @@ public class AcademyController {
 	@DeleteMapping("/academies/remove/{academyCode}")
 	public Message removeAcademy(@PathVariable String academyCode) {return academyService.removeAcademy(academyCode);}
 	
+	/*
+	 * Da vedere per ora inutile
+	private Message checkAcademy(Academy academy, Exception e) {
+		Message msg;
+		
+		return msg = academy == null? new Message(e.getMessage()) : new Message("Operation Succeded");
+	}*/
 }

@@ -73,4 +73,6 @@ public class AcademyServiceImpl implements AcademyService {
 
 	@Override
 	public List<Academy> findAllAcademies() {return academyRepository.findAll();}
+	
+	//private checkTitle(String )
 }

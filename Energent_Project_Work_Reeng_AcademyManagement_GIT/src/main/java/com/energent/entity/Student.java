@@ -28,7 +28,8 @@ public class Student {
 	private String firstName, lastName;
 	
 	@Column(nullable = false)
-	@Pattern(regexp = "/([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))/")
+	//@Pattern(regexp = "/([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))/")
+	@Pattern(regexp = "([1900-2099]-[1-12]-[1-31])")
 	private Date birthDate;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
