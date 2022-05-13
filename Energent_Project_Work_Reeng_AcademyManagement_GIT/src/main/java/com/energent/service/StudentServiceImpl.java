@@ -1,5 +1,7 @@
 package com.energent.service;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +57,9 @@ public class StudentServiceImpl implements StudentService{
 
 	@Override
 	public Message removeStudent(String studentFiscalCode, String academyCode) {
+		
 		Message msg;
+		
 		Academy academy = academyService.findAcademyById(academyCode);
 		Student student = findStudentById(studentFiscalCode);
 		
@@ -80,6 +84,9 @@ public class StudentServiceImpl implements StudentService{
 
 	@Override
 	public Message addOnJoinTableAcademyStudent(String academyCode, String studentFiscalCode) {
+		
+		Message msg;
+		
 		Academy academy = academyService.findAcademyById(academyCode);
 		Student student = findStudentById(studentFiscalCode);
 		
@@ -88,20 +95,25 @@ public class StudentServiceImpl implements StudentService{
 
 		studentRepository.insertJoin(academyCode, studentFiscalCode);
 		
-		
-		return null;
+		return msg = studentRepository.selectJoin(academyCode, studentFiscalCode) != null? new Message("Operation Succeded") : new Message("Operation Failed");
 	}
 
 	@Override
 	public Message deleteOnJoinTableAcademyStudent(String studentFiscalCode, String academyCode) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Message msg;
+		
+		Student student = findStudentById(studentFiscalCode);
+		Academy academy = academyService.findAcademyById(academyCode);
+		
+		academy.getStudents().remove(student);
+		student.getAcademies().remove(academy);
+		
+		studentRepository.deleteJoin(studentFiscalCode, academyCode);
+		
+		return msg = studentRepository.selectJoin(academyCode, studentFiscalCode) != null? new Message("Operation Succeded") : new Message("Operation Failed");
 	}
 
 	@Override
-	public int ageCalculator(Student student) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
+	public int ageCalculator(Student student) {return Period.between(student.getBirthDate().toLocalDate(), LocalDate.now()).getYears();}
 }

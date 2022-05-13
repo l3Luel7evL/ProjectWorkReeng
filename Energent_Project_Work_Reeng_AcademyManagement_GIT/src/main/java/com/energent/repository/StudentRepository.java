@@ -24,7 +24,8 @@ public interface StudentRepository extends JpaRepository<Student, String>{
 	void deleteJoin(String academyCode, String studentFiscalCode);
 
 	@Modifying
-	@Query(value = "INSERT INTO academy_student (academy_code, student_fiscal_code) VALUES (?1, ?2)", nativeQuery = true)
-	Student
+	@Query(value = "SELECT * FROM student INNER JOIN academy_student ON student.fiscal_code = academy_student.student_fiscal_code INNER JOIN academy ON academy.code = academy_student.academy_code  WHERE academy_code = ?1 and student_fiscal_code = ?2;",
+		   nativeQuery = true)
+	Student selectJoin(String academyCode, String studentFiscalCode);
 	
 }
