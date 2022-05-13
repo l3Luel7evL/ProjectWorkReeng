@@ -87,6 +87,8 @@ public class StudentServiceImpl implements StudentService{
 			student.getAcademies().remove(academy);
 
 		studentRepository.insertJoin(academyCode, studentFiscalCode);
+		
+		
 		return null;
 	}
 
