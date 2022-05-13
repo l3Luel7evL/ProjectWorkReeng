@@ -19,12 +19,14 @@ public class AcademyServiceImpl implements AcademyService {
 	@Override
 	public Academy addOrUpdateAcademy(Academy academy) throws Exception {
 		// TODO Auto-generated method stub
+		return null;
 		
 	}
 
 	@Override
 	public Message removeAcademy(String id) {
 		// TODO Auto-generated method stub
+		return null;
 		
 	}
 
