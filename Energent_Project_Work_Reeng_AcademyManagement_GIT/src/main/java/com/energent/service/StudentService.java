@@ -19,8 +19,5 @@ public interface StudentService {
 	//Join table operations
 	Message addOnJoinTableAcademyStudent(String academyCode, String studentFiscalCode);
 	Message deleteOnJoinTableAcademyStudent(String studentFiscalCode, String academyCode);
-	
-	//Other
-	int ageCalculator(Student student);
-	
+
 }

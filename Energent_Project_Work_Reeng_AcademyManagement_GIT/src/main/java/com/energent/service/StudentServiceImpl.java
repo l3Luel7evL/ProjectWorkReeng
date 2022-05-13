@@ -114,6 +114,5 @@ public class StudentServiceImpl implements StudentService{
 		return msg = studentRepository.selectJoin(academyCode, studentFiscalCode) != null? new Message("Operation Succeded") : new Message("Operation Failed");
 	}
 
-	@Override
-	public int ageCalculator(Student student) {return Period.between(student.getBirthDate().toLocalDate(), LocalDate.now()).getYears();}
+	private int ageCalculator(Student student) {return Period.between(student.getBirthDate().toLocalDate(), LocalDate.now()).getYears();}
 }
