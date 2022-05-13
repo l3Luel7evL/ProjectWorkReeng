@@ -27,8 +27,7 @@ public class AcademyServiceImpl implements AcademyService {
 	public Academy addOrUpdateAcademy(Academy academy) throws Exception {
 
 		String id = academy.getCode();
-		Academy academyToUpdate = null;
-		Academy academyToSave = null;
+		Academy academyToSave = null, academyToUpdate = null;
 		
 		if(academy.getEndDate().toLocalDate().isBefore(academy.getStartDate().toLocalDate()))
 			throw new Exception("Errore, la data di fine non puo' essere prima di quella di partenza!");
@@ -53,6 +52,7 @@ public class AcademyServiceImpl implements AcademyService {
 
 	@Override
 	public Message removeAcademy(String id) {
+		
 		Message msg;
 		Academy academy = findAcademyById(id);
 
@@ -73,5 +73,4 @@ public class AcademyServiceImpl implements AcademyService {
 
 	@Override
 	public List<Academy> findAllAcademies() {return academyRepository.findAll();}
-
 }
