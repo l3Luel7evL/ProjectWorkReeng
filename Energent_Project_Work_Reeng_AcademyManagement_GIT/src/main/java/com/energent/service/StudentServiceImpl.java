@@ -74,11 +74,11 @@ public class StudentServiceImpl implements StudentService{
 	}
 
 	@Override
-	public Message removeStudent(String studentFiscalCode, String academyCode) {
+	public Message removeStudent(String studentFiscalCode /*, String academyCode*/) {
 		
-		Academy academy = academyService.findAcademyById(academyCode);
+		//Academy academy = academyService.findAcademyById(academyCode);
 		Student student = findStudentById(studentFiscalCode);
-		
+		/*
 		List<Student> students = academy.getStudents();
 		List<Academy> academies = student.getAcademies();
 		
@@ -88,12 +88,13 @@ public class StudentServiceImpl implements StudentService{
 			
 			academy.getStudents().clear();
 			student.getAcademies().clear();
-		}
+		}*/
 		
 		studentRepository.deleteById(studentFiscalCode);
-		
+	
+		/*
 		academy.getStudents().addAll(students);
-		student.getAcademies().addAll(academies);	
+		student.getAcademies().addAll(academies);	*/
 		
 		return msg = studentRepository.existsById(studentFiscalCode)? new Message("Operation Failed") : new Message("Operation Succeded");
 	}
@@ -101,13 +102,19 @@ public class StudentServiceImpl implements StudentService{
 	@Override
 	public Message addOnJoinTableAcademyStudent(String academyCode, String studentFiscalCode) {
 
-		/*Academy academy = academyService.findAcademyById(academyCode);
 		Student student = findStudentById(studentFiscalCode);
+		Academy academy = academyService.findAcademyById(academyCode);
 		
-		if(student.getAcademies().contains(academy))
-			student.getAcademies().remove(academy);*/
-
-		studentRepository.insertJoin(academyCode, studentFiscalCode);
+		List<Student> students = academy.getStudents();
+		List<Academy> academies = student.getAcademies();
+		
+		academy.getStudents().add(student);
+		student.getAcademies().add(academy);
+		
+		for(Academy acd : academies)
+			for(Student stud : students)
+				if(!findStudentsByAcademy(acd.getCode()).contains(stud))
+					studentRepository.insertJoin(acd.getCode(), stud.getFiscalCode());
 		
 		return msg = findStudentsByAcademy(academyCode).get(0) != null? new Message("Operation Succeded") : new Message("Operation Failed");
 	}
@@ -132,49 +139,7 @@ public class StudentServiceImpl implements StudentService{
 			for(Student stud : students)
 				if(!findStudentsByAcademy(acd.getCode()).contains(stud))
 					addOnJoinTableAcademyStudent(acd.getCode(), stud.getFiscalCode());
-		/*
-		for(Academy acd : academies)
-			addOnJoinTableAcademyStudent(acd.getCode(), student.getFiscalCode());
-
-		for(Student stud : students)
-			if(!findStudentsByAcademy(academyCode).contains(stud))
-				addOnJoinTableAcademyStudent(academy.getCode(), stud.getFiscalCode());
-		*/
 		
-		/*
-		List<Student> students = academy.getStudents();
-		List<Academy> academies = student.getAcademies();
-		
-		int countStudentsOnJoinBefore = findStudentsByAcademy(academyCode).size();
-		
-		if(students.size()> 0)
-			students.remove(academy);
-		
-		if(academies.size()> 0)
-			academies.remove(student);
-		
-		academy.getStudents().clear();
-		student.getAcademies().clear();
-		
-		studentRepository.deleteJoin(studentFiscalCode, academyCode);
-		
-		student.setAcademies(academies);
-		academy.setStudents(students);
-		
-		addOrUpdateStudent(student);
-		academyService.addOrUpdateAcademy(academy);
-		
-		for(Student stud : academy.getStudents())
-			addOnJoinTableAcademyStudent(academy.getCode(), stud.getFiscalCode());
-		
-		for(Academy acd : student.getAcademies())
-			addOnJoinTableAcademyStudent(acd.getCode(), student.getFiscalCode());
-		
-		int countStudentsOnJoinAfter = findStudentsByAcademy(academyCode).size();
-		
-//		addOrUpdateStudent(student);
-//		academyService.addOrUpdateAcademy(academy);
-		*/
 		int countStudentsOnJoinAfter = findStudentsByAcademy(academyCode).size();
 		
 		return msg = countStudentsOnJoinBefore > countStudentsOnJoinAfter? new Message("Operation Succeded") : new Message("Operation Failed");

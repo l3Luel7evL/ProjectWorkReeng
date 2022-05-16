@@ -14,7 +14,7 @@ public interface StudentService {
 	
 	//Other CRUDs
 	Student addOrUpdateStudent(Student student) throws Exception;
-	Message removeStudent(String studentFiscalCode, String academyCode);
+	Message removeStudent(String studentFiscalCode/*, String academyCode*/);
 	
 	//Join table operations
 	Message addOnJoinTableAcademyStudent(String academyCode, String studentFiscalCode);

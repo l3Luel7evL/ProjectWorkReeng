@@ -15,6 +15,8 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Student {
 	
@@ -32,6 +34,7 @@ public class Student {
 	//@Pattern(regexp = "([1900-2099]-[1-12]-[1-31])")
 	private Date birthDate;
 	
+	@JsonIgnore
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "academy_student", 
 			   joinColumns = @JoinColumn(name="student_fiscal_code"),

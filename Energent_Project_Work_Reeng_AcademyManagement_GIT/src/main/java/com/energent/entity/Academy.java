@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.Pattern;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Academy {
 
@@ -25,6 +27,7 @@ public class Academy {
 	//@Pattern(regexp = "/([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))/")
 	private Date startDate, endDate;
 	
+	@JsonIgnore
 	@ManyToMany(mappedBy = "academies", fetch = FetchType.EAGER)
 	private List<Student> students = new ArrayList<>();
 	
