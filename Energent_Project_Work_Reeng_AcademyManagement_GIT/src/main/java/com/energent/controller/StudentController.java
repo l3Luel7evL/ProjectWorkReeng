@@ -46,5 +46,5 @@ public class StudentController {
 	
 	//VD. 1
 	@DeleteMapping("/students/academies/removeFromJoin/academyCode/{academyCode}/studentFiscalCode/{studentFiscalCode}")
-	public Message removeFromJoinTable(@PathVariable String academyCode, @PathVariable String studentFiscalCode) {return studentService.deleteOnJoinTableAcademyStudent(studentFiscalCode, academyCode);}
+	public Message removeFromJoinTable(@PathVariable String academyCode, @PathVariable String studentFiscalCode) throws Exception {return studentService.deleteOnJoinTableAcademyStudent(studentFiscalCode, academyCode);}
 }
