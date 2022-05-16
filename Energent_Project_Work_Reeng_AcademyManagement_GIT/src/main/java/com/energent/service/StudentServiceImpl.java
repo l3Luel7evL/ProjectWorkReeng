@@ -76,25 +76,9 @@ public class StudentServiceImpl implements StudentService{
 	@Override
 	public Message removeStudent(String studentFiscalCode /*, String academyCode*/) {
 		
-		//Academy academy = academyService.findAcademyById(academyCode);
 		Student student = findStudentById(studentFiscalCode);
-		/*
-		List<Student> students = academy.getStudents();
-		List<Academy> academies = student.getAcademies();
-		
-		if(student.getAcademies()!= null && academy.getStudents()!= null) {
-			academies.remove(academy);
-			students.remove(student);
-			
-			academy.getStudents().clear();
-			student.getAcademies().clear();
-		}*/
 		
 		studentRepository.deleteById(studentFiscalCode);
-	
-		/*
-		academy.getStudents().addAll(students);
-		student.getAcademies().addAll(academies);	*/
 		
 		return msg = studentRepository.existsById(studentFiscalCode)? new Message("Operation Failed") : new Message("Operation Succeded");
 	}
