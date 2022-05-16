@@ -23,6 +23,7 @@ public interface StudentRepository extends JpaRepository<Student, String>{
 	@Query(value = "DELETE FROM academy_student where academy_code = ?1 and student_fiscal_code = ?2", nativeQuery = true)
 	void deleteJoin(String academyCode, String studentFiscalCode);
 
+	@Deprecated
 	@Modifying
 	@Query(value = "SELECT * FROM student INNER JOIN academy_student ON student.fiscal_code = academy_student.student_fiscal_code INNER JOIN academy ON academy.code = academy_student.academy_code  WHERE academy_code = ?1 and student_fiscal_code = ?2;",
 		   nativeQuery = true)
