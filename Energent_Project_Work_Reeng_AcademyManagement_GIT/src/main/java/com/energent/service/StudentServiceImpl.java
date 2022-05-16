@@ -5,6 +5,10 @@ import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,8 +16,12 @@ import com.energent.bean.Message;
 import com.energent.entity.*;
 import com.energent.repository.*;
 
+
 @Service
+@Transactional
 public class StudentServiceImpl implements StudentService{
+	
+	Logger log = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
 	private StudentRepository studentRepository;
@@ -95,31 +103,36 @@ public class StudentServiceImpl implements StudentService{
 		
 		Message msg;
 		
-		Academy academy = academyService.findAcademyById(academyCode);
+		/*Academy academy = academyService.findAcademyById(academyCode);
 		Student student = findStudentById(studentFiscalCode);
 		
 		if(student.getAcademies().contains(academy))
-			student.getAcademies().remove(academy);
+			student.getAcademies().remove(academy);*/
 
 		studentRepository.insertJoin(academyCode, studentFiscalCode);
 		
-		return msg = studentRepository.selectJoin(academyCode, studentFiscalCode) != null? new Message("Operation Succeded") : new Message("Operation Failed");
+		return msg = findStudentsByAcademy(academyCode).get(0) != null? new Message("Operation Succeded") : new Message("Operation Failed");
 	}
 
 	@Override
-	public Message deleteOnJoinTableAcademyStudent(String studentFiscalCode, String academyCode) {
+	public Message deleteOnJoinTableAcademyStudent(String studentFiscalCode, String academyCode) throws Exception {
 		
 		Message msg;
 		
+		
 		Student student = findStudentById(studentFiscalCode);
 		Academy academy = academyService.findAcademyById(academyCode);
-		
+		/*
 		academy.getStudents().remove(student);
-		student.getAcademies().remove(academy);
+		student.getAcademies().remove(academy);*/
 		
 		studentRepository.deleteJoin(studentFiscalCode, academyCode);
 		
-		return msg = studentRepository.selectJoin(academyCode, studentFiscalCode) != null? new Message("Operation Succeded") : new Message("Operation Failed");
+		addOrUpdateStudent(student);
+		academyService.addOrUpdateAcademy(academy);
+	
+		
+		return msg = findStudentsByAcademy(academyCode).get(0) != null? new Message("Operation Succeded") : new Message("Operation Failed");
 	}
 
 	private int ageCalculator(Student student) {return Period.between(student.getBirthDate().toLocalDate(), LocalDate.now()).getYears();}

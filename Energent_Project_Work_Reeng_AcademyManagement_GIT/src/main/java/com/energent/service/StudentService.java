@@ -18,6 +18,6 @@ public interface StudentService {
 	
 	//Join table operations
 	Message addOnJoinTableAcademyStudent(String academyCode, String studentFiscalCode);
-	Message deleteOnJoinTableAcademyStudent(String studentFiscalCode, String academyCode);
+	Message deleteOnJoinTableAcademyStudent(String studentFiscalCode, String academyCode) throws Exception;
 
 }
