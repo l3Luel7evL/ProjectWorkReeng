@@ -29,33 +29,32 @@ public class StudentController {
 	@Autowired
 	private StudentService studentService;
 	
-	@ApiOperation(value = "Returns a student by given fiscal code.")
-	@GetMapping("/students/studentFiscalCode/{studentFiscalCode}")
-	public Student findStudentByFiscalCode(@ApiParam(value = "Univoque code representing entity's identificative string.", example = "ABCDFG01H23I456L") @PathVariable String studentFiscalCode) {return studentService.findStudentById(studentFiscalCode);}
-	
-	@ApiOperation(value = "Return a list with all the students registered.")
+	@ApiOperation(value = "Find all students.")
 	@GetMapping("/students")
 	public List<Student> findAllStudents() {return studentService.findAllStudents();}
 		
-	@ApiOperation(value = "Return a list with all the students related to a specified academy.")
+	@ApiOperation(value = "Find specifical student by given fiscal code.")
+	@GetMapping("/students/studentFiscalCode/{studentFiscalCode}")
+	public Student findStudentByFiscalCode(@ApiParam(value = "Student Fiscal Code : representative and univoque code of a student, Primary Key of the entity.<br><p><i><small><b>Will be returned :</b><ul><li>The selected entity.</li></ul></small></i></p>", example = "ABCDFG01H23I456L") @PathVariable String studentFiscalCode) {return studentService.findStudentById(studentFiscalCode);}
+	
+	@ApiOperation(value = "Finds all the students related to a specified academy.")
 	@GetMapping("/students/academies/{academyCode}")
-	public List<Student> findStudentsByAcademy(@ApiParam(value = "Academy Code : representative of academy's identificative to search the relation with.") @PathVariable String academyCode){return studentService.findStudentsByAcademy(academyCode);}
+	public List<Student> findStudentsByAcademy(@ApiParam(value = "Academy Code : representative of academy's identificative to search the relation with.<br><p><i><small><b>Will be returned :</b><ul><li>A list filled with all the students related with the selected academy.</li></ul></small></i></p>", example = "AcademyCode1") @PathVariable String academyCode){return studentService.findStudentsByAcademy(academyCode);}
 	
-	@ApiOperation("Add a student to the DataBase, if student's fiscal code is alredy taken the student will be updated.")
+	@ApiOperation("Save a student on the DB, if student's fiscal code is alredy taken, will be updated.")
 	@PostMapping("/students/addOrUpdate")
-	public Student addOrUpdateStudent(@ApiParam(value="A student, representing the entity provided of: <ul><li>Fiscal Code</li><li>First Name</li><li>Last Name</li><li>Birth Date</li></ul>") @Valid @RequestBody Student student) throws Exception {return studentService.addOrUpdateStudent(student);}
+	public Student addOrUpdateStudent(@ApiParam(value="A student, representing the entity provided of: <ul><li>Fiscal Code.</li><li>First Name.</li><li>Last Name.</li><li>Birth Date.</li></ul><br><p><i><small><b>Will be returned :</b><ul><li>The saved or updated entity.</li></ul></small></i></p><br><p><i><small><b>Exceptions will be thrown when :</b><ul><li>Fiscal code won't match an authentical fiscal code pattern.</li><li>Birth Date gives back an age lesser than 18.</li></ul></small></i></p>") @Valid @RequestBody Student student) throws Exception {return studentService.addOrUpdateStudent(student);}
 
-	@ApiOperation("Remove a student from the DataBase.")
-//	@DeleteMapping("/students/academies/academyCode/{academyCode}/remove/{studentFiscalCode}")
+	@ApiOperation("Remove a student from the DB.")
 	@DeleteMapping("/students/remove/{studentFiscalCode}")
-	public Message removeStudent(@PathVariable String academyCode, @PathVariable String studentFiscalCode) {return studentService.removeStudent(studentFiscalCode/*, academyCode*/);}
+	public Message removeStudent(@ApiParam(value = "Academy code : representative and univoque code of an academy, Primary Key of the entity.<br><p><i><small><b>Will be returned a message containing:</b><ul><li>Operation Succeded/Failed.</li></ul></small></i></p>") @PathVariable String studentFiscalCode) {return studentService.removeStudent(studentFiscalCode);}
 	
-	@ApiOperation(value = "Adds a relation between a student and an academy.")
-	@PostMapping("/students/academies/addOnJoin/academyCode/{academyCode}/studentFiscalCode/{studentFiscalCode}")
-	public Message addOnJoinTable(@PathVariable String academyCode, @PathVariable String studentFiscalCode) {return studentService.addOnJoinTableAcademyStudent(academyCode, studentFiscalCode);}
+	@ApiOperation(value = "Add a relation between a student and an academy.")
+	@PostMapping("/students/addOnJoin/{academyCode}/studentFiscalCode/{studentFiscalCode}")
+	public Message addOnJoinTable(@ApiParam(value = "Academy code : representative and univoque code of an academy, Primary Key of the entity.", example = "AcademyCode1")@PathVariable String academyCode, @ApiParam(value = "Student Fiscal Code : representative and univoque code of a student, Primary Key of the entity.<br><p><i><small><b>Will be returned a message containing:</b><ul><li>Operation Succeded/Failed.</li></ul></small></i></p>", example = "ABCDFG01H23I456L")@PathVariable String studentFiscalCode) {return studentService.addOnJoinTableAcademyStudent(academyCode, studentFiscalCode);}
 	
-	@ApiOperation(value = "Remove the relation between a student and an academy")
-	@DeleteMapping("/students/academies/removeFromJoin/academyCode/{academyCode}/studentFiscalCode/{studentFiscalCode}")
-	public Message removeFromJoinTable(@PathVariable String academyCode, @PathVariable String studentFiscalCode) throws Exception {return studentService.deleteOnJoinTableAcademyStudent(studentFiscalCode, academyCode);}
+	@ApiOperation(value = "Remove a relation between a student and an academy")
+	@DeleteMapping("/students/removeFromJoin/{academyCode}/studentFiscalCode/{studentFiscalCode}")
+	public Message removeFromJoinTable(@ApiParam(value = "Academy code : representative and univoque code of an academy, Primary Key of the entity.", example = "AcademyCode1")@PathVariable String academyCode, @ApiParam(value = "Student Fiscal Code : representative and univoque code of a student, Primary Key of the entity.<br><p><i><small><b>Will be returned a message containing:</b><ul><li>Operation Succeded/Failed.</li></ul></small></i></p>", example = "ABCDFG01H23I456L")@PathVariable String studentFiscalCode) throws Exception {return studentService.deleteOnJoinTableAcademyStudent(studentFiscalCode, academyCode);}
 
 }

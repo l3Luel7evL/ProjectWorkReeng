@@ -76,8 +76,6 @@ public class StudentServiceImpl implements StudentService{
 	@Override
 	public Message removeStudent(String studentFiscalCode /*, String academyCode*/) {
 		
-		Student student = findStudentById(studentFiscalCode);
-		
 		studentRepository.deleteById(studentFiscalCode);
 		
 		return msg = studentRepository.existsById(studentFiscalCode)? new Message("Operation Failed") : new Message("Operation Succeded");
