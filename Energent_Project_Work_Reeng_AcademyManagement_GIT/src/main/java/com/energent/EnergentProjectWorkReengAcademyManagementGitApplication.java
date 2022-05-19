@@ -35,7 +35,7 @@ public class EnergentProjectWorkReengAcademyManagementGitApplication {
 	private ApiInfo apiInfo() {
 		return new ApiInfoBuilder()
 				   .title("Documentation: Academy Management Project Work.")
-				   .description("MySite Service Exposed Operations.\nSee Website to watch an implementation of those\n\n<u>Realized by</u>:<ul><b><li>Krist</li><li>Luca</li><li>Matteo</li><li>Simone</li></b></ul>\n<small><b>For info or support:</b>\nMatteo: 3388309165</small>")
+				   .description("MySite Service Exposed Operations.\nSee Website to watch an implementation of those\n\n<u>Realized by</u>:<ul><b><li>Krist</li><li>Luca</li><li>Matteo</li><li>Simone</li></b></ul>")
 				   .version("1.0")
 				   .contact(new Contact("Matteo", "https://github.com/l3Luel7evL/ProjectWork", "mtt.bff98@gmail.com"))
 				   .build();
